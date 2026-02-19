@@ -1,0 +1,63 @@
+---
+interface Props {
+  title: string;
+  href: string;
+  date: string;
+  category?: string;
+}
+
+const { title, href, date, category } = Astro.props;
+
+const formattedDate = new Date(date).toLocaleDateString("ja-JP", {
+  year: "numeric",
+  month: "long",
+  day: "numeric",
+});
+---
+
+<a href={href} class="news-card">
+  <div class="news-card__meta">
+    <time datetime={date}>{formattedDate}</time>
+    {category && <span class="news-card__category">{category}</span>}
+  </div>
+  <h3 class="news-card__title">{title}</h3>
+</a>
+
+<style>
+  .news-card {
+    display: block;
+    padding: var(--space-md);
+    border: 1px solid var(--color-border);
+    border-radius: 8px;
+    text-decoration: none;
+    color: var(--color-text);
+    transition: box-shadow 0.2s, transform 0.2s;
+  }
+  .news-card:hover {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    transform: translateY(-2px);
+  }
+  .news-card__meta {
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+    margin-bottom: var(--space-xs);
+  }
+  .news-card__meta time {
+    font-size: 0.8125rem;
+    color: var(--color-text-muted);
+  }
+  .news-card__category {
+    font-size: 0.75rem;
+    background: var(--color-primary);
+    color: #fff;
+    padding: 0.125rem 0.5rem;
+    border-radius: 4px;
+  }
+  .news-card__title {
+    font-size: 1rem;
+    font-weight: 600;
+    margin: 0;
+    line-height: 1.5;
+  }
+</style>

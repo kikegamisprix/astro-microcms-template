@@ -1,0 +1,60 @@
+---
+interface Props {
+  siteName?: string;
+}
+
+const { siteName = "SITE NAME" } = Astro.props;
+---
+
+<header class="header">
+  <div class="header__inner">
+    <a href="/" class="header__logo">{siteName}</a>
+    <nav class="header__nav">
+      <ul>
+        <li><a href="/">ホーム</a></li>
+        <li><a href="/news/">お知らせ</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<style>
+  .header {
+    position: sticky;
+    top: 0;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(8px);
+    z-index: 100;
+    border-bottom: 1px solid var(--color-border);
+  }
+  .header__inner {
+    max-width: var(--content-width);
+    margin: 0 auto;
+    padding: 0.75rem var(--space-md);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .header__logo {
+    font-weight: 700;
+    font-size: 1.125rem;
+    color: var(--color-text);
+    text-decoration: none;
+  }
+  .header__nav ul {
+    display: flex;
+    gap: var(--space-md);
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  .header__nav a {
+    color: var(--color-text);
+    text-decoration: none;
+    font-size: 0.9375rem;
+    transition: color 0.2s;
+  }
+  .header__nav a:hover {
+    color: var(--color-primary);
+  }
+</style>

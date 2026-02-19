@@ -1,0 +1,57 @@
+---
+import BaseLayout from "./BaseLayout.astro";
+
+interface Props {
+  title: string;
+  description?: string;
+  ogImage?: string;
+}
+
+const { title, description, ogImage } = Astro.props;
+---
+
+<BaseLayout title={title} description={description} ogImage={ogImage}>
+  <header class="lp-header">
+    <div class="lp-header__inner">
+      <a href="/" class="lp-header__logo">SITE NAME</a>
+    </div>
+  </header>
+
+  <main>
+    <slot />
+  </main>
+
+  <footer class="lp-footer">
+    <p>&copy; {new Date().getFullYear()} Your Company</p>
+  </footer>
+</BaseLayout>
+
+<style>
+  .lp-header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(8px);
+    z-index: 100;
+    border-bottom: 1px solid var(--color-border);
+  }
+  .lp-header__inner {
+    max-width: var(--content-width);
+    margin: 0 auto;
+    padding: 0.75rem var(--space-md);
+  }
+  .lp-header__logo {
+    font-weight: 700;
+    font-size: 1.125rem;
+    color: var(--color-text);
+    text-decoration: none;
+  }
+  .lp-footer {
+    text-align: center;
+    padding: var(--space-lg) var(--space-md);
+    color: var(--color-text-muted);
+    font-size: 0.875rem;
+  }
+</style>

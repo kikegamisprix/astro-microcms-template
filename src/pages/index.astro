@@ -1,0 +1,73 @@
+---
+import LPLayout from "../layouts/LPLayout.astro";
+import Hero from "../components/Hero.astro";
+import CTA from "../components/CTA.astro";
+---
+
+<LPLayout title="トップページ | SITE NAME" description="Astro + microCMS テンプレートのサンプル LP ページです。">
+  <Hero
+    title="あなたのビジネスを加速する"
+    subtitle="高速・安全・管理しやすい。Astro + microCMS で作るモダンな静的サイト。"
+  />
+
+  <!-- 特徴セクション -->
+  <section class="features">
+    <div class="features__inner">
+      <h2 class="features__heading">特徴</h2>
+      <div class="features__grid">
+        <div class="features__card">
+          <h3>高速表示</h3>
+          <p>静的生成により、どのページも高速にロード。ユーザー体験を最大化します。</p>
+        </div>
+        <div class="features__card">
+          <h3>かんたん更新</h3>
+          <p>microCMS の管理画面から、技術知識なしでコンテンツを更新できます。</p>
+        </div>
+        <div class="features__card">
+          <h3>低コスト運用</h3>
+          <p>S3 + CloudFront で安定稼働。サーバー費用を最小限に抑えます。</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <CTA />
+</LPLayout>
+
+<style>
+  .features {
+    padding: var(--space-3xl) var(--space-md);
+  }
+  .features__inner {
+    max-width: var(--content-width);
+    margin: 0 auto;
+  }
+  .features__heading {
+    text-align: center;
+    font-size: clamp(1.25rem, 3vw, 1.75rem);
+    font-weight: 700;
+    margin: 0 0 var(--space-xl);
+    color: var(--color-text);
+  }
+  .features__grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: var(--space-lg);
+  }
+  .features__card {
+    background: var(--color-bg-secondary);
+    border-radius: 12px;
+    padding: var(--space-lg);
+  }
+  .features__card h3 {
+    font-size: 1.125rem;
+    margin: 0 0 var(--space-xs);
+    color: var(--color-primary);
+  }
+  .features__card p {
+    margin: 0;
+    color: var(--color-text-muted);
+    line-height: 1.7;
+    font-size: 0.9375rem;
+  }
+</style>

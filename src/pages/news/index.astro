@@ -1,0 +1,60 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import Header from "../../components/Header.astro";
+import Footer from "../../components/Footer.astro";
+import NewsCard from "../../components/NewsCard.astro";
+import { getNewsList } from "../../lib/microcms";
+
+const { contents: newsList } = await getNewsList({ limit: 20 });
+---
+
+<BaseLayout title="お知らせ | SITE NAME" description="お知らせの一覧ページです。">
+  <Header />
+
+  <main class="news-index">
+    <div class="news-index__inner">
+      <h1 class="news-index__title">お知らせ</h1>
+
+      {newsList.length > 0 ? (
+        <div class="news-index__list">
+          {newsList.map((news) => (
+            <NewsCard
+              title={news.title}
+              href={`/news/${news.id}/`}
+              date={news.publishedAt ?? news.createdAt}
+              category={news.category?.[0]}
+            />
+          ))}
+        </div>
+      ) : (
+        <p class="news-index__empty">お知らせはまだありません。</p>
+      )}
+    </div>
+  </main>
+
+  <Footer />
+</BaseLayout>
+
+<style>
+  .news-index {
+    padding: var(--space-xl) var(--space-md) var(--space-3xl);
+  }
+  .news-index__inner {
+    max-width: var(--content-width-narrow);
+    margin: 0 auto;
+  }
+  .news-index__title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin: 0 0 var(--space-lg);
+    color: var(--color-text);
+  }
+  .news-index__list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-md);
+  }
+  .news-index__empty {
+    color: var(--color-text-muted);
+  }
+</style>

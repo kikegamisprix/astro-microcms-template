@@ -1,0 +1,96 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import Header from "../../components/Header.astro";
+import Footer from "../../components/Footer.astro";
+import { getNewsList, getNewsDetail } from "../../lib/microcms";
+import type { News } from "../../lib/microcms";
+
+export async function getStaticPaths() {
+  const { contents } = await getNewsList({ limit: 100, fields: ["id", "title"] });
+  return contents.map((news) => ({
+    params: { slug: news.id },
+  }));
+}
+
+const { slug } = Astro.params;
+const news: News = await getNewsDetail(slug as string);
+
+const publishedDate = new Date(news.publishedAt ?? news.createdAt).toLocaleDateString("ja-JP", {
+  year: "numeric",
+  month: "long",
+  day: "numeric",
+});
+---
+
+<BaseLayout title={`${news.title} | SITE NAME`}>
+  <Header />
+
+  <main class="news-detail">
+    <div class="news-detail__inner">
+      <p class="news-detail__date">
+        <time datetime={news.publishedAt ?? news.createdAt}>{publishedDate}</time>
+      </p>
+      <h1 class="news-detail__title">{news.title}</h1>
+
+      <div class="news-detail__content" set:html={news.content} />
+
+      <div class="news-detail__back">
+        <a href="/news/">&larr; お知らせ一覧へ戻る</a>
+      </div>
+    </div>
+  </main>
+
+  <Footer />
+</BaseLayout>
+
+<style>
+  .news-detail {
+    padding: var(--space-xl) var(--space-md) var(--space-3xl);
+  }
+  .news-detail__inner {
+    max-width: var(--content-width-narrow);
+    margin: 0 auto;
+  }
+  .news-detail__date {
+    color: var(--color-text-muted);
+    font-size: 0.875rem;
+    margin: 0 0 var(--space-xs);
+  }
+  .news-detail__title {
+    font-size: clamp(1.25rem, 3vw, 1.75rem);
+    font-weight: 700;
+    margin: 0 0 var(--space-lg);
+    line-height: 1.4;
+    color: var(--color-text);
+  }
+  .news-detail__content {
+    line-height: 1.8;
+    font-size: 1rem;
+    color: var(--color-text);
+  }
+  .news-detail__content :global(h2) {
+    font-size: 1.25rem;
+    margin: var(--space-xl) 0 var(--space-sm);
+  }
+  .news-detail__content :global(p) {
+    margin: 0 0 var(--space-md);
+  }
+  .news-detail__content :global(img) {
+    max-width: 100%;
+    height: auto;
+    border-radius: 8px;
+  }
+  .news-detail__back {
+    margin-top: var(--space-xl);
+    padding-top: var(--space-md);
+    border-top: 1px solid var(--color-border);
+  }
+  .news-detail__back a {
+    color: var(--color-primary);
+    text-decoration: none;
+    font-size: 0.9375rem;
+  }
+  .news-detail__back a:hover {
+    text-decoration: underline;
+  }
+</style>
